@@ -3,6 +3,8 @@ from pydantic_settings import BaseSettings
 
 class Settings(BaseSettings):
     openrouter_api_key: str = ""
+    # Must be a model that supports tool calling. Override with OPENROUTER_MODEL in .env.
+    openrouter_model: str = "qwen/qwen3-coder"
     smtp_host: str = "smtp.gmail.com"
     smtp_port: int = 587
     smtp_user: str = ""
@@ -16,6 +18,4 @@ class Settings(BaseSettings):
 
     class Config:
         env_file = ".env"
-
-
-settings = Settings()
+settings = Settings()      

@@ -1,5 +1,5 @@
 import datetime
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, BackgroundTasks, Depends
 from sqlalchemy.orm import Session
 
 from app.database import get_db
@@ -14,6 +14,7 @@ router = APIRouter(prefix="/checkin", tags=["checkin"])
 @router.post("/", response_model=CheckInOut)
 def create_checkin(
     payload: CheckInCreate,
+    background_tasks: BackgroundTasks, 
     user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
 ):
@@ -32,11 +33,7 @@ def create_checkin(
 
     if user.notifications_enabled and payload.sleep_hours is not None and payload.sleep_hours < 6:
         subject, body, html = build_sleep_alert_email(user.name, payload.sleep_hours)
-        import asyncio
-        try:
-            asyncio.create_task(send_email(user.email, subject, body, html))
-        except RuntimeError:
-            pass
+        background_tasks.add_task(send_email, user.email, subject, body, html)
         notif = Notification(
             user_id=user.id,
             type="email",
