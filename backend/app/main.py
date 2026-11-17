@@ -12,7 +12,7 @@ async def lifespan(app: FastAPI):
     yield
 
 
-app = FastAPI(title="Cycle Coach API", lifespan=lifespan)
+app = FastAPI(title="Her Coach API", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,

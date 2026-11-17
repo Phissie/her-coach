@@ -16,7 +16,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <div className="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2 text-xl font-bold text-rose-600">
             <span>🌸</span>
-            <span>Cycle Coach</span>
+            <span>Her Coach</span>
           </Link>
           {user && (
             <div className="flex items-center gap-4 text-sm">
